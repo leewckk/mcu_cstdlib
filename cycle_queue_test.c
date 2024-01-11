@@ -21,45 +21,11 @@
 // SOFTWARE.
 //
 //
-#pragma once
+#include "cycle_queue.h"
 
-#include "std_typedef.h"
-
-#ifdef __cplusplus
-#if __cplusplus
-extern "C" {
-#endif
-#endif
-
-typedef void (*CycleQueueMapProc)(const void* q, const void* p, void* result);
-typedef void (*CycleQueueReduceProc)(const void* q, const void* p1, const void* p2, void* result);
-typedef tStdResult (*CycleQueueInsertProc)(const void* q, const void* element);
-typedef uint32 (*CycleQueueSizeProc)(const void* q);
-typedef void (*CycleQueueDoingMapProc)(const void* q, CycleQueueMapProc proc);
-typedef void (*CycleQueueDoingReduceProc)(const void* q, CycleQueueReduceProc proc);
-
-typedef struct {
-    /*
-     * definition for data element 
-     * */
-    void* data;
-    uint32 elemSize;
-    uint32 capacity;
-    int32 front;
-    int32 rear;
-    /* ------------------------- */
-
-    CycleQueueInsertProc insert;
-    CycleQueueDoingMapProc doMap;
-    CycleQueueDoingReduceProc doReduce;
-    CycleQueueSizeProc getSize;
-
-} CycleQueue;
-
-tStdResult InitCycleQueue(CycleQueue* q, void* buffer, uint32 elemSize, uint32 capacity);
-
-#ifdef __cplusplus
-#if __cplusplus
+int main(void)
+{
+    int buffer[16];
+    CycleQueue queue;
+    InitCycleQueue(&queue, buffer, sizeof(int), sizeof(buffer) / sizeof(int));
 }
-#endif
-#endif

@@ -42,6 +42,19 @@ typedef long long int64;
 typedef float float32;
 typedef double float64;
 
+#define NULL 0
+
+typedef enum {
+    E_OK = 0,
+    E_NOT_OK = 1
+} tStdResult;
+
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+
+#define MEMCPY memcpy
+
 #ifdef __cplusplus
 #if __cplusplus
 }
