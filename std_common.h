@@ -23,40 +23,25 @@
 //
 #pragma once
 
-#include "std_typedef.h"
-
 #ifdef __cplusplus
 #if __cplusplus
 extern "C" {
 #endif
 #endif
 
-    typedef void (*CycleQueueMapProc)(const void* q, const void* p, void* result);
-    typedef void (*CycleQueueReduceProc)(const void* q, const void* p1, const void* p2, void* result);
-    typedef tStdResult (*CycleQueueInsertProc)(const void* q, const void* element);
-    typedef uint32 (*CycleQueueSizeProc)(const void* q);
-    typedef void (*CycleQueueDoingMapProc)(const void* q, const void* p, void* result, CycleQueueMapProc proc);
-    typedef void (*CycleQueueDoingReduceProc)(const void* q, const void* p1, const void* p2, void* result , CycleQueueReduceProc proc);
+#include "std_typedef.h"
 
-    typedef struct {
-        /*
-         * definition for data element
-         * */
-        void* data;
-        uint32 elemSize;
-        uint32 capacity;
-        int32 front;
-        int32 rear;
-        /* ------------------------- */
+#define STD_ASSERT_NULL(p) \
+    if (NULL == p) {       \
+        return;            \
+    }
 
-        CycleQueueInsertProc insert;
-        CycleQueueDoingMapProc doMap;
-        CycleQueueDoingReduceProc doReduce;
-        CycleQueueSizeProc getSize;
+#define STD_ASSERT_NULL_RETURN(p, ret) \
+    if (NULL == p) {       \
+        return ret;            \
+    }
 
-    } CycleQueue;
 
-    tStdResult InitCycleQueue(CycleQueue* q, void* buffer, uint32 elemSize, uint32 capacity);
 
 #ifdef __cplusplus
 #if __cplusplus

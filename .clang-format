@@ -1,0 +1,12 @@
+{
+    "BasedOnStyle": "Google", 
+    "IndentWidth": 4,
+    "SortIncludes": false,
+    "NamespaceIndentation": "None",
+    "IndentAfterExternBlock": false,
+    "BraceWrapping": {
+        "AfterFunction": true
+                  
+    }
+}
+
