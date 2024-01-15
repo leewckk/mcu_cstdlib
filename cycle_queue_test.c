@@ -26,6 +26,31 @@
 int main(void)
 {
     int buffer[16];
+    const unsigned elementSize = sizeof(buffer) / sizeof(buffer[0]);
+    memset(buffer, 0, sizeof(buffer));
     CycleQueue queue;
     InitCycleQueue(&queue, buffer, sizeof(int), sizeof(buffer) / sizeof(int));
+
+
+    for(uint32 i = 0; i < 32; i++) {
+        int insertValue = i*2;
+        InsertCycleQueue(&queue, &insertValue);
+
+        const uint32 desireSize = (uint32)(i + i) > elementSize ? elementSize : (i + 1);
+
+        printf("Desire queue size: %02d, get size %02d, front : %02d, rear : %02d, capacity : %02d \r\n",
+               desireSize, GetCycleQueueSize(&queue), queue.front, queue.rear, queue.capacity);
+
+        for(uint32 j = 0; j < desireSize ; j++) {
+            int value = 0;
+            GetCycleQueueElement(&queue, j, &value);
+            printf("(%02d,%02d) ", j, value);
+        }
+        printf("\r\n");
+
+        for(unsigned j = 0; j < elementSize; j ++) {
+            printf("%02d ", buffer[j]);
+        }
+        printf("\r\n-------------------------------------\r\n\r\n");
+    }
 }

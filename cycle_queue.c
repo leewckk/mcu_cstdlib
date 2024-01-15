@@ -28,10 +28,8 @@
 #include "std_typedef.h"
 #include "std_common.h"
 
-static tStdResult insertProc(const void *q, const void *element);
-static uint32 sizeProc(const void *q);
-static void doingReduceProc(const void *q, const void* p1, const void* p2, void* result, CycleQueueReduceProc proc) ;
-static void doingMapProc(const void *q, const void* p, void* result, CycleQueueMapProc proc) ;
+
+static tStdResult setQueueElement(CycleQueue *queue, uint32 index, void* element);
 
 /// @brief InitCycleQueue
 ///
@@ -53,43 +51,53 @@ tStdResult InitCycleQueue(CycleQueue *q, void *buffer, uint32 elemSize,
     q->front = -1;
     q->rear = -1;
 
-    q->insert = insertProc;
-    q->getSize = sizeProc;
-    q->doMap = doingMapProc ;
-    q->doReduce = doingReduceProc;
     return E_OK;
 }
 
-/// @brief enqueueProc
+
+/// @brief InsertCycleQueue
 ///
 /// @param q
 /// @param element
-static tStdResult insertProc(const void *q, const void *element) {
+///
+/// @return
+//
+tStdResult InsertCycleQueue(CycleQueue* queue, const void* element){
 
-    CycleQueue *queue = (CycleQueue *)q;
     STD_ASSERT_NULL_RETURN(queue, E_NOT_OK);
+    const uint32 size = GetCycleQueueSize(queue);
+    if(0U == size) {
+        /*
+         * check if queue is empty
+         * */
+        queue->front = 0U;
+        queue->rear = 0u;
+    }else {
 
-    /*
-     * check if this queue is full .
-     * */
-    if (queue->getSize(q) == queue->capacity) {
-        queue->front = (queue->front + 1u) % queue->capacity;
+        /*
+         * check if this queue is full .
+         * */
+        if (GetCycleQueueSize(queue) == queue->capacity) {
+            queue->front = (queue->front + 1u) % queue->capacity;
+        }
+        queue->rear = (queue->rear + 1u) % queue->capacity;
+
     }
-    queue->rear = (queue->rear + 1u) % queue->capacity;
     MEMCPY((void *)((uint8 *)queue->data + (queue->elemSize * queue->rear)),
            element, queue->elemSize);
 
     return E_OK;
+
 }
 
-/// @brief sizeProc
+
+/// @brief GetCycleQueueSize
 ///
 /// @param q
 ///
 /// @return
-static uint32 sizeProc(const void *q) {
+uint32 GetCycleQueueSize(const CycleQueue* queue){
 
-    CycleQueue *queue = (CycleQueue *)q;
     STD_ASSERT_NULL_RETURN(queue, 0U);
 
     if(-1 == queue->front && -1 == queue->rear) {
@@ -103,30 +111,67 @@ static uint32 sizeProc(const void *q) {
 }
 
 
+tStdResult GetCycleQueueElement(const CycleQueue *queue, uint32 index, void* out){
 
+    STD_ASSERT_NULL_RETURN(queue, E_NOT_OK);
+    STD_ASSERT_NULL_RETURN(out, E_NOT_OK);
 
-/// @brief doingMapProc
-///
-/// @param q
-/// @param p
-/// @param result
-/// @param proc
-static void doingMapProc(const void *q, const void* p, void* result, CycleQueueMapProc proc) {
+    if(GetCycleQueueSize(queue) < index) {
+        return  E_NOT_OK;
+    }
 
-    CycleQueue *queue = (CycleQueue *)q;
-    STD_ASSERT_NULL(queue);
-    STD_ASSERT_NULL(proc);
-    proc(queue, p, result);
+    MEMCPY(out,
+           (void*)((uint8*)queue->data + (queue->elemSize * ((queue->front + index + queue->capacity) % queue->capacity))),
+           queue->elemSize);
+
+    return E_OK;
 }
 
-/// @brief doingReduceProc
-///
-/// @param q
-/// @param proc
-static void doingReduceProc(const void *q, const void* p1, const void* p2, void* result, CycleQueueReduceProc proc) {
 
-    CycleQueue *queue = (CycleQueue *)q;
-    STD_ASSERT_NULL(queue);
-    STD_ASSERT_NULL(proc);
-    proc(queue, p1, p2, result);
+/* /// @brief CycleQueueMapProcess */
+/* /// */
+/* /// @param queue */
+/* /// @param proc */
+/* void CycleQueueMapProcess(CycleQueue *queue, CycleQueueMapProc proc){ */
+
+/*     STD_ASSERT_NULL(queue); */
+/*     STD_ASSERT_NULL(proc); */
+
+/*     uint32 size = GetCycleQueueSize(queue); */
+/*     for(uint32 index = 0; index < size; index ++){ */
+/*         setQueueElement(queue, index, ) */
+/*     } */
+
+/* } */
+
+
+/* /// @brief CycleQueueReduceProcess */
+/* /// */
+/* /// @param queue */
+/* /// @param proc */
+/* void CycleQueueReduceProcess(const CycleQueue *queue, CycleQueueReduceProc proc){ */
+
+/*     STD_ASSERT_NULL(queue); */
+/*     STD_ASSERT_NULL(proc); */
+/* } */
+
+
+
+/// @brief setQueueElement
+///
+/// @param queue
+/// @param index
+/// @param element
+///
+/// @return
+static tStdResult setQueueElement(CycleQueue *queue, uint32 index, void* element){
+
+    STD_ASSERT_NULL_RETURN(queue, E_NOT_OK);
+    STD_ASSERT_NULL_RETURN(element, E_NOT_OK);
+
+    if(GetCycleQueueSize(queue) < index) {
+        return  E_NOT_OK;
+    }
+
+    return E_OK;
 }
