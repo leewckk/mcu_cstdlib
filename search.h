@@ -29,35 +29,15 @@ extern "C" {
 #endif
 #endif
 
-    typedef unsigned char uint8;
-    typedef unsigned short uint16;
-    typedef unsigned int uint32;
-    typedef unsigned long long uint64;
+#include "std_typedef.h"
+#include "std_common.h"
 
-    typedef char int8;
-    typedef short int16;
-    typedef int int32;
-    typedef long long int64;
-
-    typedef float float32;
-    typedef double float64;
-    typedef void VOID;
-
-#define NULL 0
-
-    typedef enum {
-        E_OK = 0,
-        E_NOT_OK = 1
-    } tStdResult;
-
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
-
-#define MEMCPY memcpy
+    typedef int32 (*tCompareFunctionPtr) (const VOID* v1 , const VOID* v2);
+    int32 BinarySearch(const VOID* arr, uint32 size, uint32 elementSize, const VOID* target, tCompareFunctionPtr compare);
 
 #ifdef __cplusplus
 #if __cplusplus
 }
 #endif
 #endif
+

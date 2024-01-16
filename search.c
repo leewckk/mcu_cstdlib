@@ -21,43 +21,46 @@
 // SOFTWARE.
 //
 //
-#pragma once
 
-#ifdef __cplusplus
-#if __cplusplus
-extern "C" {
-#endif
-#endif
 
-    typedef unsigned char uint8;
-    typedef unsigned short uint16;
-    typedef unsigned int uint32;
-    typedef unsigned long long uint64;
+#include "search.h"
 
-    typedef char int8;
-    typedef short int16;
-    typedef int int32;
-    typedef long long int64;
 
-    typedef float float32;
-    typedef double float64;
-    typedef void VOID;
 
-#define NULL 0
+/// @brief BinarySearch
+///
+/// @param arr
+/// @param size
+/// @param elementSize
+/// @param target
+/// @param compare
+///
+/// @return
+int32 BinarySearch(const VOID* arr, uint32 size, uint32 elementSize, const VOID* target, tCompareFunctionPtr compare){
 
-    typedef enum {
-        E_OK = 0,
-        E_NOT_OK = 1
-    } tStdResult;
+    int32 low = 0;
+    int32 high = size -1;
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
 
-#define MEMCPY memcpy
+    while(low <= high) {
 
-#ifdef __cplusplus
-#if __cplusplus
+        int middle = low + (high - low) / 2;
+        const void* elem = (const uint8*)arr + middle * elementSize;
+        int result = compare(elem, target);
+
+        if(0 == result) {
+
+            return middle;
+        }else if(result > 0) {
+
+            high = middle - 1;
+        }else {
+
+            low = middle + 1;
+        }
+    }
+
+    return -1;
 }
-#endif
-#endif
+
+

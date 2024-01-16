@@ -21,43 +21,42 @@
 // SOFTWARE.
 //
 //
-#pragma once
 
-#ifdef __cplusplus
-#if __cplusplus
-extern "C" {
-#endif
-#endif
 
-    typedef unsigned char uint8;
-    typedef unsigned short uint16;
-    typedef unsigned int uint32;
-    typedef unsigned long long uint64;
 
-    typedef char int8;
-    typedef short int16;
-    typedef int int32;
-    typedef long long int64;
-
-    typedef float float32;
-    typedef double float64;
-    typedef void VOID;
-
-#define NULL 0
-
-    typedef enum {
-        E_OK = 0,
-        E_NOT_OK = 1
-    } tStdResult;
-
+#include "search.h"
 #include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
 
-#define MEMCPY memcpy
 
-#ifdef __cplusplus
-#if __cplusplus
+int compare_int(const VOID* p1, const VOID* p2) {
+    return (*(int*)p1 - *(int*)p2);
 }
-#endif
-#endif
+
+
+int main(int argc, char** argv){
+
+    int array1[100];
+    int array2[99];
+    int target[] = { 0, 99, -1, 20, 50, 40, 22, 46, 88, 91  };
+
+    const int size1 = sizeof(array1) / sizeof(array1[0]);
+    const int size2 = sizeof(array2) / sizeof(array2[0]);
+
+    for(int i = 0; i < size1; i ++) {
+        array1[i] = i;
+    }
+
+    for(int i = 0; i < size2; i++) {
+        array2[i] = i;
+    }
+
+    for(unsigned i = 0; i < sizeof(target)/sizeof(target[0]); i++) {
+        printf("[ARR1] target: %d, find result: %d\n", target[i], BinarySearch(array1, size1, sizeof(int), &target[i], compare_int));
+        printf("[ARR2] target: %d, find result: %d\n", target[i], BinarySearch(array2, size2, sizeof(int), &target[i], compare_int));
+    }
+
+
+
+
+    return 0;
+}
