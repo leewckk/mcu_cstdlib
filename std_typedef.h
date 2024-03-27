@@ -48,7 +48,7 @@ extern "C" {
     typedef enum {
         E_OK = 0,
         E_NOT_OK = 1
-    } tStdResult;
+    } StdResult;
 
 #include "stdio.h"
 #include "stdlib.h"

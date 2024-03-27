@@ -36,7 +36,7 @@
 /// @param compare
 ///
 /// @return
-int32 BinarySearch(const VOID* arr, uint32 size, uint32 elementSize, const VOID* target, tCompareFunctionPtr compare){
+int32 BinarySearch(const VOID* arr, uint32 size, uint32 elementSize, const VOID* target, CompareFunctionPtr compare){
 
     int32 low = 0;
     int32 high = size -1;

@@ -39,10 +39,10 @@ extern "C" {
         int32 rear;
     } CycleQueue;
 
-    tStdResult InitCycleQueue(CycleQueue* q, void* buffer, uint32 elemSize, uint32 capacity);
-    tStdResult InsertCycleQueue(CycleQueue* q, const void* element);
+    StdResult InitCycleQueue(CycleQueue* q, void* buffer, uint32 elemSize, uint32 capacity);
+    StdResult InsertCycleQueue(CycleQueue* q, const void* element);
     uint32 GetCycleQueueSize(const CycleQueue* queue);
-    tStdResult GetCycleQueueElement(const CycleQueue *queue , uint32 index, void* out);
+    StdResult GetCycleQueueElement(const CycleQueue *queue , uint32 index, void* out);
 
     /* typedef void(*CycleQueueAssignProc)(CycleQueue* q, const uint32 index, const void* value); */
     /* typedef void (*CycleQueueMapProc)(CycleQueue* q, const void* p, void* result, CycleQueueAssignProc assign); */

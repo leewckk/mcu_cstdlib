@@ -29,7 +29,7 @@
 #include "std_common.h"
 
 
-static tStdResult setQueueElement(CycleQueue *queue, uint32 index, void* element);
+static StdResult setQueueElement(CycleQueue *queue, uint32 index, void* element);
 
 /// @brief InitCycleQueue
 ///
@@ -39,7 +39,7 @@ static tStdResult setQueueElement(CycleQueue *queue, uint32 index, void* element
 /// @param capacity
 ///
 /// @return
-tStdResult InitCycleQueue(CycleQueue *q, void *buffer, uint32 elemSize,
+StdResult InitCycleQueue(CycleQueue *q, void *buffer, uint32 elemSize,
                           uint32 capacity) {
 
     if (NULL == q || NULL == buffer) {
@@ -62,7 +62,7 @@ tStdResult InitCycleQueue(CycleQueue *q, void *buffer, uint32 elemSize,
 ///
 /// @return
 //
-tStdResult InsertCycleQueue(CycleQueue* queue, const void* element){
+StdResult InsertCycleQueue(CycleQueue* queue, const void* element){
 
     STD_ASSERT_NULL_RETURN(queue, E_NOT_OK);
     const uint32 size = GetCycleQueueSize(queue);
@@ -111,7 +111,7 @@ uint32 GetCycleQueueSize(const CycleQueue* queue){
 }
 
 
-tStdResult GetCycleQueueElement(const CycleQueue *queue, uint32 index, void* out){
+StdResult GetCycleQueueElement(const CycleQueue *queue, uint32 index, void* out){
 
     STD_ASSERT_NULL_RETURN(queue, E_NOT_OK);
     STD_ASSERT_NULL_RETURN(out, E_NOT_OK);
@@ -164,7 +164,7 @@ tStdResult GetCycleQueueElement(const CycleQueue *queue, uint32 index, void* out
 /// @param element
 ///
 /// @return
-static tStdResult setQueueElement(CycleQueue *queue, uint32 index, void* element){
+static StdResult setQueueElement(CycleQueue *queue, uint32 index, void* element){
 
     STD_ASSERT_NULL_RETURN(queue, E_NOT_OK);
     STD_ASSERT_NULL_RETURN(element, E_NOT_OK);
