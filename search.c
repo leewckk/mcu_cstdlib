@@ -36,16 +36,16 @@
 /// @param compare
 ///
 /// @return
-int32 BinarySearch(const VOID* arr, uint32 size, uint32 elementSize, const VOID* target, CompareFunctionPtr compare){
+int32_t BinarySearch(const VOID* arr, uint32_t size, uint32_t elementSize, const VOID* target, CompareFunctionPtr compare){
 
-    int32 low = 0;
-    int32 high = size -1;
+    int32_t low = 0;
+    int32_t high = size -1;
 
 
     while(low <= high) {
 
         int middle = low + (high - low) / 2;
-        const void* elem = (const uint8*)arr + middle * elementSize;
+        const void* elem = (const uint8_t*)arr + middle * elementSize;
         int result = compare(elem, target);
 
         if(0 == result) {

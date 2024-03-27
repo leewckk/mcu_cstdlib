@@ -33,24 +33,16 @@ extern "C" {
 
     typedef struct {
         void* data;
-        uint32 elemSize;
-        uint32 capacity;
-        int32 front;
-        int32 rear;
-    } CycleQueue;
+        uint32_t elemSize;
+        uint32_t capacity;
+        int32_t front;
+        int32_t rear;
+    } CycleQueueType;
 
-    StdResult InitCycleQueue(CycleQueue* q, void* buffer, uint32 elemSize, uint32 capacity);
-    StdResult InsertCycleQueue(CycleQueue* q, const void* element);
-    uint32 GetCycleQueueSize(const CycleQueue* queue);
-    StdResult GetCycleQueueElement(const CycleQueue *queue , uint32 index, void* out);
-
-    /* typedef void(*CycleQueueAssignProc)(CycleQueue* q, const uint32 index, const void* value); */
-    /* typedef void (*CycleQueueMapProc)(CycleQueue* q, const void* p, void* result, CycleQueueAssignProc assign); */
-    /* typedef void (*CycleQueueReduceProc)(const CycleQueue* q, const void* p1, const void* p2, void* result); */
-
-    /* void CycleQueueMapProcess(CycleQueue *q, CycleQueueMapProc proc); */
-    /* void CycleQueueReduceProcess(const CycleQueue *q, CycleQueueReduceProc proc); */
-
+    StdResult CycleQueueInit(CycleQueueType* q, void* buffer, uint32_t elemSize, uint32_t capacity);
+    StdResult CycleQueueInsert(CycleQueueType* q, const void* element);
+    uint32_t CycleQueueGetSize(const CycleQueueType* queue);
+    StdResult CycleQueueGetElement(const CycleQueueType *queue , uint32_t index, void* out);
 
 #ifdef __cplusplus
 #if __cplusplus

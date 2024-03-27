@@ -32,8 +32,8 @@ extern "C" {
 #include "std_typedef.h"
 #include "std_common.h"
 
-    typedef int32 (*CompareFunctionPtr) (const VOID* v1 , const VOID* v2);
-    int32 BinarySearch(const VOID* arr, uint32 size, uint32 elementSize, const VOID* target, CompareFunctionPtr compare);
+    typedef int32_t (*CompareFunctionPtr) (const VOID* v1 , const VOID* v2);
+    int32_t BinarySearch(const VOID* arr, uint32_t size, uint32_t elementSize, const VOID* target, CompareFunctionPtr compare);
 
 #ifdef __cplusplus
 #if __cplusplus

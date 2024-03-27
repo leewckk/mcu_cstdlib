@@ -23,27 +23,55 @@
 //
 #include "cycle_queue.h"
 
-int main(void)
-{
-    int buffer[16];
+#pragma pack(1)
+typedef struct {
+    uint16_t index;
+    float32_t value;
+}TestStruct;
+#pragma pack()
+
+void test_02(void) {
+
+    uint8_t buffer[sizeof(TestStruct)*6];
+    memset(buffer, 0, sizeof(buffer));
+    CycleQueueType queue;
+    CycleQueueInit(&queue, buffer, sizeof(TestStruct), sizeof(buffer)/sizeof(TestStruct));
+    for (uint32_t i = 1; i <16; i++) {
+        TestStruct  node;
+        node.index = i;
+        node.value = 3.14*i;
+        CycleQueueInsert(&queue,&node);
+
+        for(uint32_t j = 0; j < 6; j++){
+
+            TestStruct *p = (TestStruct*)buffer;
+            printf("%d, %.2f ", p[j].index, p[j].value);
+        }
+        printf("\r\n----------------------------------------------------------------\r\n");
+    }
+
+}
+
+void test_01(void){
+     int buffer[16];
     const unsigned elementSize = sizeof(buffer) / sizeof(buffer[0]);
     memset(buffer, 0, sizeof(buffer));
-    CycleQueue queue;
-    InitCycleQueue(&queue, buffer, sizeof(int), sizeof(buffer) / sizeof(int));
+    CycleQueueType queue;
+    CycleQueueInit(&queue, buffer, sizeof(int), sizeof(buffer) / sizeof(int));
 
 
-    for(uint32 i = 0; i < 32; i++) {
+    for(uint32_t i = 0; i < 32; i++) {
         int insertValue = i*2;
-        InsertCycleQueue(&queue, &insertValue);
+        CycleQueueInsert(&queue, &insertValue);
 
-        const uint32 desireSize = (uint32)(i + i) > elementSize ? elementSize : (i + 1);
+        const uint32_t desireSize = (uint32_t)(i + i) > elementSize ? elementSize : (i + 1);
 
         printf("Desire queue size: %02d, get size %02d, front : %02d, rear : %02d, capacity : %02d \r\n",
-               desireSize, GetCycleQueueSize(&queue), queue.front, queue.rear, queue.capacity);
+               desireSize, CycleQueueGetSize(&queue), queue.front, queue.rear, queue.capacity);
 
-        for(uint32 j = 0; j < desireSize ; j++) {
+        for(uint32_t j = 0; j < desireSize ; j++) {
             int value = 0;
-            GetCycleQueueElement(&queue, j, &value);
+            CycleQueueGetElement(&queue, j, &value);
             printf("(%02d,%02d) ", j, value);
         }
         printf("\r\n");
@@ -53,4 +81,10 @@ int main(void)
         }
         printf("\r\n-------------------------------------\r\n\r\n");
     }
+}
+
+int main(void)
+{
+    test_02();
+//    test_01();
 }
