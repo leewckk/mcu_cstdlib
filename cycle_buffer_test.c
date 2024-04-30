@@ -54,8 +54,15 @@ int main(int argc, char **argv){
         uint8_t temp[128];
         memset(temp, 0 + i, 128);
         CycleBufferInsert(&cycleBuffer, temp, i);
-        printf("current size: %d\n", CycleBufferGetSize(&cycleBuffer));
+        printf("current size: %d. head: %d , tail: %d \n", CycleBufferGetSize(&cycleBuffer), cycleBuffer.header, cycleBuffer.tail);
         hexdump(buffer, 128);
+
+        uint8_t temp2[128];
+        uint32_t popSize = 0U;
+        CycleBufferPop(&cycleBuffer,temp2,16, &popSize);
+        hexdump(temp2, 16);
+        printf("total size: %d, pop size: %d, header = %d, tail: %d\n", CycleBufferGetSize(&cycleBuffer), popSize, cycleBuffer.header, cycleBuffer.tail);
+
         printf("\n\n\n");
     }
 
